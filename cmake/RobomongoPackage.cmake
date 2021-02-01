@@ -52,9 +52,16 @@ target_architecture(target_arch)
 # Package file name
 set(CPACK_PACKAGE_FILE_NAME ${package_file_name}-${package_file_version}-${system_name}-${target_arch}-${git_hash})
 
-if(SYSTEM_LINUX)
-    set(CPACK_GENERATOR TGZ)
+if(SYSTEM_LINUX_RHEL)
+    set(CPACK_GENERATOR RPM)
+    set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/DESCRIPTION")
+    set(CPACK_RPM_PACKAGE_LICENSE "GPLv3")
+    set(CPACK_RPM_PACKAGE_DEBUG 1)
+    list(APPEND CPACK_RPM_USER_FILELIST "%attr(755,root,root) /usr/share/icons")
+    list(APPEND CPACK_RPM_USER_FILELIST "%attr(755,root,root) /usr/share/applications")
 
+elseif(SYSTEM_LINUX)
+    set(CPACK_GENERATOR TGZ)
 
 elseif(SYSTEM_MACOSX)
     set(CPACK_GENERATOR DragNDrop)
